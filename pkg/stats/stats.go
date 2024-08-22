@@ -1,11 +1,14 @@
 package stats
 
-import "github.com/Yessentemir256/bank/pkg/bank/types"
+import "github.com/Yessentemir256/bank/v2/pkg/bank/types"
 
 // TotalInCategory находит сумму покупок в определенной категории.
 func TotalInCategory(payments []types.Payment, category types.Category) types.Money {
 	sum := types.Money(0)
 	for _, payment := range payments {
+		if payment.Status == types.StatusFail {
+			continue
+		}
 		if payment.Category != category {
 			continue
 		}
@@ -22,6 +25,9 @@ func TotalInCategory(payments []types.Payment, category types.Category) types.Mo
 func Total(payments []types.Payment) types.Money {
 	sum := types.Money(0)
 	for _, payment := range payments {
+		if payment.Status == types.StatusFail {
+			continue
+		}
 		if payment.Amount <= 0 {
 			continue
 		}
@@ -32,8 +38,21 @@ func Total(payments []types.Payment) types.Money {
 
 // Avg рассчитывает среднюю сумму платежа.
 func Avg(payments []types.Payment) types.Money {
-	sum := Total(payments)
-	lenght := len(payments)
-	avg := sum / types.Money(lenght)
+	validPaymentsCount := 0
+	sum := types.Money(0)
+	for _, payment := range payments {
+		if payment.Status == types.StatusFail {
+			continue
+		}
+		if payment.Amount <= 0 {
+			continue
+		}
+		sum += payment.Amount
+		validPaymentsCount++
+	}
+	if validPaymentsCount == 0 {
+		return 0
+	}
+	avg := sum / types.Money(validPaymentsCount)
 	return avg
 }

@@ -2,7 +2,8 @@ package stats
 
 import (
 	"fmt"
-	"github.com/Yessentemir256/bank/pkg/bank/types"
+
+	"github.com/Yessentemir256/bank/v2/pkg/bank/types"
 )
 
 func ExampleTotal() {
@@ -38,31 +39,37 @@ func ExampleAvg() {
 	fmt.Println(Avg([]types.Payment{
 		{
 			Amount: 1_000_00,
+			Status: types.StatusFail,
 		},
 	}))
 	fmt.Println(Avg([]types.Payment{
 		{
 			Amount: 1_000_00,
+			Status: types.StatusOk,
 		},
 		{
 			Amount: 2_000_00,
+			Status: types.StatusFail,
 		},
 	}))
 	fmt.Println(Avg([]types.Payment{
 		{
 			Amount: 1_000_00,
+			Status: types.StatusOk,
 		},
 		{
 			Amount: 2_000_00,
+			Status: types.StatusOk,
 		},
 		{
 			Amount: 3_000_00,
+			Status: types.StatusOk,
 		},
 	}))
 
 	// Output:
+	// 0
 	// 100000
-	// 150000
 	// 200000
 }
 
