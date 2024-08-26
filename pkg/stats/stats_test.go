@@ -26,3 +26,21 @@ func TestCategoriesTotal(t *testing.T) {
 		t.Errorf("invalid result, expected: %v, actual: %v", expected, result)
 	}
 }
+
+func TestFilterByCategory_nil(t *testing.T) {
+	var payments []types.Payment
+	result := FilterByCategory(payments, "mobile")
+
+	if len(result) != 0 {
+		t.Errorf("result len != 0")
+	}
+}
+
+func TestFilterByCategory(t *testing.T) {
+	payments := []types.Payment{}
+	result := FilterByCategory(payments, "mobile")
+
+	if len(result) != 0 {
+		t.Errorf("result len != 0")
+	}
+}
