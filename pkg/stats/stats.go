@@ -119,3 +119,16 @@ func NumberOfPaymentsCategory(payments []types.Payment, category types.Category)
 	}
 	return sum
 }
+
+// PeriodsDynamic сравнивает расходы по категориям за 2 периода.
+func PeriodsDynamic(
+	first map[types.Category]types.Money, second map[types.Category]types.Money,
+) map[types.Category]types.Money {
+	result := map[types.Category]types.Money{}
+
+	for category, amount := range second {
+		result[category] = amount - first[category]
+	}
+
+	return result
+}
